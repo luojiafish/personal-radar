@@ -19,7 +19,7 @@ jobs:
       AI_API_KEY: ""
       AI_MODEL: ""
       APP_TIMEZONE: Asia/Shanghai
-      DATABASE_PATH: ${{ runner.temp }}\personal-radar-ci.sqlite
+      DATABASE_PATH: "${{ runner.temp }}/personal-radar-ci.sqlite"
 
     steps:
       - name: Check out source

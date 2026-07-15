@@ -1,6 +1,5 @@
 const siteLabel = document.querySelector("#site");
 const resultLabel = document.querySelector("#result");
-const detectButton = document.querySelector("#detect");
 const loggedInButton = document.querySelector("#logged-in");
 const loggedOutButton = document.querySelector("#logged-out");
 const targetSelect = document.querySelector("#target");
@@ -48,7 +47,7 @@ async function loadTargets() {
 
 async function report(status, method, detectorVersion = "manual-v1") {
   if (!activeOrigin) return;
-  for (const button of [detectButton, loggedInButton, loggedOutButton]) button.disabled = true;
+  for (const button of [loggedInButton, loggedOutButton]) button.disabled = true;
   try {
     const response = await fetch("http://127.0.0.1:3210/api/site-login-statuses", {
       method: "POST",
@@ -61,26 +60,8 @@ async function report(status, method, detectorVersion = "manual-v1") {
   } catch (error) {
     setResult(error instanceof Error ? error.message : "无法连接 Personal Radar", true);
   } finally {
-    for (const button of [detectButton, loggedInButton, loggedOutButton]) button.disabled = false;
+    for (const button of [loggedInButton, loggedOutButton]) button.disabled = false;
   }
-}
-
-function inspectVisibleLoginSignals() {
-  const visible = (element) => Boolean(element && element.getClientRects().length && getComputedStyle(element).visibility !== "hidden");
-  const firstVisible = (selectors) => selectors.some((selector) => [...document.querySelectorAll(selector)].some(visible));
-  const host = location.hostname.toLowerCase();
-
-  if (host === "tieba.baidu.com") {
-    const authenticated = firstVisible([".u_username", ".user_name", "a[href*='/home/main']", "a[href*='i.baidu.com']"]);
-    const unauthenticated = firstVisible([".u_login", "a[href*='passport.baidu.com']"]);
-    return { status: authenticated ? "authenticated" : unauthenticated ? "unauthenticated" : "unknown", detectorVersion: "tieba-v1" };
-  }
-  if (host === "www.bilibili.com" || host === "bilibili.com") {
-    const authenticated = firstVisible([".header-entry-mini", ".v-img", "a[href*='space.bilibili.com']"]);
-    const unauthenticated = firstVisible([".header-login-entry", ".login-entry"]);
-    return { status: authenticated ? "authenticated" : unauthenticated ? "unauthenticated" : "unknown", detectorVersion: "bilibili-v1" };
-  }
-  return { status: "unknown", detectorVersion: "generic-v1" };
 }
 
 async function initialize() {
@@ -100,7 +81,7 @@ async function initialize() {
     setCaptureResult(message, true);
     if (!activeOrigin || incognito) {
       setResult(message, true);
-      for (const button of [detectButton, loggedInButton, loggedOutButton, captureButton]) button.disabled = true;
+      for (const button of [loggedInButton, loggedOutButton, captureButton]) button.disabled = true;
       targetSelect.disabled = true;
     }
   }
@@ -131,15 +112,6 @@ captureButton.addEventListener("click", async () => {
   }
 });
 
-detectButton.addEventListener("click", async () => {
-  if (!activeTab?.id) return;
-  try {
-    const [{ result }] = await chrome.scripting.executeScript({ target: { tabId: activeTab.id }, func: inspectVisibleLoginSignals });
-    await report(result.status, "extension_auto", result.detectorVersion);
-  } catch {
-    setResult("无法检查当前页面，请刷新网站后重试。", true);
-  }
-});
 loggedInButton.addEventListener("click", () => void report("authenticated", "extension_user"));
 loggedOutButton.addEventListener("click", () => void report("unauthenticated", "extension_user"));
 
