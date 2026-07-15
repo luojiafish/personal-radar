@@ -1,6 +1,6 @@
 import { PublicApiError } from "@/lib/api";
 import { resolveAiRuntimeConfig, type AiRuntimeConfig } from "@/lib/ai-config";
-import type { ProfileEvidence } from "@/lib/profile-types";
+import type { ProfileEvidence, UserProfileContext } from "@/lib/profile-types";
 
 type ChatCompletionResponse = {
   choices?: Array<{ message?: { content?: string } }>;
@@ -90,10 +90,10 @@ export async function generateDailyReport(input: {
   return (await generateText(systemPrompt, userPrompt.slice(0, 30000), 1800)).slice(0, 12000);
 }
 
-export async function generateProfileSuggestionDraftsWithAi(evidence: ProfileEvidence[]): Promise<unknown[]> {
-  const systemPrompt = "你是 Personal Radar 的保守型中文兴趣建议助手。只能依据用户已经确认进入日报的内容提出建议，不得推断性格、人格、生活状态、健康、疾病、政治、宗教、性取向、性别、种族、民族、婚姻、家庭、收入或财务状况。允许的类型只有：current_topic（当前关注主题）、interest_change（有明确时间对比证据的近期变化）、work_learning_direction（仅限内容呈现出的学习或工作方向，不推断职业身份）、keyword（推荐检索关键词）。没有足够证据的类型可以省略。不要编造。只输出 JSON 对象，不要代码块或解释。格式：{\"suggestions\":[{\"kind\":\"current_topic\",\"value\":\"简短建议\",\"rationale\":\"可核对的依据\"}]}。总数最多 12 条。";
+export async function generateProfileSuggestionDraftsWithAi(evidence: ProfileEvidence[], context: UserProfileContext): Promise<unknown[]> {
+  const systemPrompt = "你是 Personal Radar 的保守型中文兴趣建议助手。每条建议必须同时参考用户明确填写的自我评价、目标/追求，以及用户已经确认进入日报的内容；rationale 说明可核对的日报证据，goalRelation 说明它与用户目标的关系。不得把自我评价扩展成性格诊断，也不得推断人格、生活状态、健康、疾病、政治、宗教、性取向、性别、种族、民族、婚姻、家庭、收入或财务状况。允许的类型只有：current_topic（当前关注主题）、interest_change（有明确时间对比证据的近期变化）、work_learning_direction（仅限内容呈现出的学习或工作方向，不推断职业身份）、keyword（推荐检索关键词）。没有足够证据的类型可以省略。不要编造。只输出 JSON 对象，不要代码块或解释。格式：{\"suggestions\":[{\"kind\":\"current_topic\",\"value\":\"简短建议\",\"rationale\":\"可核对的日报依据\",\"goalRelation\":\"与用户目标的关系\"}]}。总数最多 12 条。";
   const evidenceText = evidence.map((item, index) => `【证据 ${index + 1}】\n日期：${item.reportDate}\n关注对象：${item.targetName}\n标题：${item.title}\n网址：${item.url}\n已确认内容：${item.content.slice(0, 1200)}`).join("\n\n");
-  const text = await generateText(systemPrompt, `请基于以下 ${evidence.length} 条已确认内容生成待确认建议：\n\n${evidenceText}`.slice(0, 30000), 1600);
+  const text = await generateText(systemPrompt, `用户明确填写的自我评价：\n${context.selfAssessment}\n\n用户明确填写的目标/追求：\n${context.goals}\n\n请结合以下 ${evidence.length} 条已确认内容生成待确认建议：\n\n${evidenceText}`.slice(0, 30000), 1600);
   const start = text.indexOf("{");
   const end = text.lastIndexOf("}");
   if (start < 0 || end <= start) throw new PublicApiError("AI_INVALID_RESPONSE", "AI 返回的画像建议格式无效，请重试", 502);

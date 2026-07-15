@@ -1,0 +1,6 @@
+interface:
+  display_name: "Personal Radar Research"
+  short_description: "热点、官方与补充来源三维手动研究"
+  default_prompt: "使用 $personal-radar-research 对我的一个关注方向执行今天的三维研究。"
+policy:
+  allow_implicit_invocation: false

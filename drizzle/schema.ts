@@ -92,12 +92,20 @@ export const dailyReportItems = sqliteTable("daily_report_items", {
   index("daily_report_items_report_idx").on(table.dailyReportId)
 ]);
 
+export const profileContexts = sqliteTable("profile_contexts", {
+  id: text("id").primaryKey(),
+  selfAssessment: text("self_assessment").notNull().default(""),
+  goals: text("goals").notNull().default(""),
+  updatedAt: text("updated_at").notNull().default(utcNow)
+});
+
 export const profileSuggestions = sqliteTable("profile_suggestions", {
   id: text("id").primaryKey(),
   kind: text("kind", { enum: ["current_topic", "interest_change", "work_learning_direction", "keyword"] }).notNull(),
   value: text("value").notNull(),
   normalizedValue: text("normalized_value").notNull(),
   rationale: text("rationale").notNull(),
+  goalRelation: text("goal_relation").notNull().default(""),
   evidenceCount: integer("evidence_count").notNull(),
   evidenceStartDate: text("evidence_start_date").notNull(),
   evidenceEndDate: text("evidence_end_date").notNull(),
@@ -115,4 +123,5 @@ export type SiteLoginStatusRow = typeof siteLoginStatuses.$inferSelect;
 export type SavedItemRow = typeof savedItems.$inferSelect;
 export type DailyReportRow = typeof dailyReports.$inferSelect;
 export type DailyReportItemRow = typeof dailyReportItems.$inferSelect;
+export type ProfileContextRow = typeof profileContexts.$inferSelect;
 export type ProfileSuggestionRow = typeof profileSuggestions.$inferSelect;

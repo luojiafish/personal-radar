@@ -1,4 +1,0 @@
-interface:
-  display_name: "Personal Radar Research"
-  short_description: "精品、主流与随机小众来源三段式主动调研"
-  default_prompt: "使用 $personal-radar-research 对我的关注对象执行一次三段式调研。"

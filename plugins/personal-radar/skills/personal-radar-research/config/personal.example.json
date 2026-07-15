@@ -1,0 +1,9 @@
+{
+  "projectRoot": "",
+  "autoStartLocalService": false,
+  "keepServiceRunning": true,
+  "preferredMainstreamPlatforms": [
+    "https://video.example.com",
+    "https://social.example.com"
+  ]
+}

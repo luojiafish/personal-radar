@@ -24,6 +24,8 @@ credentials*.json
 secrets*.json
 extension/.local/
 extension/.storage/
+plugins/personal-radar/skills/personal-radar-research/config/personal.json
+plugins/personal-radar/skills/personal-radar-research/config/curated-sources.md
 node_modules/
 .next/
 dist/
