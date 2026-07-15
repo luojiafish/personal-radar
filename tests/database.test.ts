@@ -6,7 +6,7 @@ import { migrate } from "drizzle-orm/better-sqlite3/migrator";
 import { openDatabase } from "@/lib/database";
 import { createSavedItem, listSavedItems, updateSavedItemSummary } from "@/lib/saved-items";
 import { listSiteLoginStatuses, updateSiteLoginStatus } from "@/lib/site-login-status";
-import { addSource, createWatchTarget, deleteKeyword, deleteSource, listWatchTargets, updateKeyword, updateSource } from "@/lib/watch-targets";
+import { addSource, createWatchTarget, deleteKeyword, deleteSource, listWatchTargets, updateKeyword, updateSource, updateWatchTarget } from "@/lib/watch-targets";
 
 const temporaryDirectories: string[] = [];
 
@@ -29,6 +29,7 @@ describe("watch target persistence", () => {
     }, connection.db);
     expect(created.keywords).toHaveLength(2);
     expect(created.sources).toHaveLength(1);
+    expect(updateWatchTarget(created.id, { description: "更新后的本地测试" }, connection.db)?.description).toBe("更新后的本地测试");
     const firstKeyword = created.keywords[0]!;
     const firstSource = created.sources[0]!;
     updateKeyword(firstKeyword.id, { enabled: false }, connection.db);

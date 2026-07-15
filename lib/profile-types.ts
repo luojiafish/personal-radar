@@ -14,4 +14,10 @@ export type GeneratedProfileSuggestion = {
   kind: ProfileSuggestionKind;
   value: string;
   rationale: string;
+  goalRelation: string;
+};
+
+export type UserProfileContext = {
+  selfAssessment: string;
+  goals: string;
 };

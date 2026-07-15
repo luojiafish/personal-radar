@@ -1,6 +1,6 @@
 # Constrained-random long-tail discovery
 
-Use this pass after curated and mainstream research. Novelty does not equal credibility.
+Use this pass after the mainstream and official dimensions. Novelty does not equal credibility.
 
 ## Build the pool
 
@@ -17,4 +17,4 @@ Prefer local media, specialist publications, independent technical blogs, alumni
 5. If direct opening fails, run one focused exact-title or exact-URL search and label readable indexed evidence `搜索索引`.
 6. If direct and indexed access both fail, remove the site and draw once more. Stop after two failed draws.
 
-Label claims `confirmed`, `plausible`, `opinion`, or `unverified`. Do not let a long-tail claim override stronger evidence. Never save or promote it without confirmation.
+Label claims `事实`, `观点`, or `不确定信息`. Do not let a long-tail claim override stronger evidence. Never save or promote it without confirmation.

@@ -95,10 +95,16 @@ export const createDailyReportSchema = dailyReportSelectionSchema.extend({
 
 export const profileSuggestionKindSchema = z.enum(profileSuggestionKinds);
 
+export const profileContextSchema = z.object({
+  selfAssessment: z.string().trim().max(2000, "自我评价不能超过 2,000 个字符"),
+  goals: z.string().trim().max(2000, "目标与追求不能超过 2,000 个字符")
+}).strict();
+
 export const confirmProfileSuggestionSchema = z.object({
   kind: profileSuggestionKindSchema,
   value: z.string().trim().min(2, "建议内容太短").max(120, "建议内容不能超过 120 个字符"),
   rationale: z.string().trim().min(2, "建议依据太短").max(400, "建议依据不能超过 400 个字符"),
+  goalRelation: z.string().trim().min(2, "需要说明建议与目标的关系").max(400, "目标关系不能超过 400 个字符"),
   evidenceCount: z.number().int().min(2).max(100),
   evidenceStartDate: businessDateSchema,
   evidenceEndDate: businessDateSchema
@@ -116,3 +122,4 @@ export type UpdateSavedItemSummaryInput = z.infer<typeof updateSavedItemSummaryS
 export type DailyReportSelectionInput = z.infer<typeof dailyReportSelectionSchema>;
 export type CreateDailyReportInput = z.infer<typeof createDailyReportSchema>;
 export type ConfirmProfileSuggestionInput = z.infer<typeof confirmProfileSuggestionSchema>;
+export type ProfileContextInput = z.infer<typeof profileContextSchema>;

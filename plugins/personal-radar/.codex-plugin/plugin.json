@@ -1,0 +1,23 @@
+{
+  "name": "personal-radar",
+  "version": "1.2.0",
+  "description": "用户主动触发的三维公开信息研究与本地 Personal Radar 协作插件。",
+  "author": {
+    "name": "Personal Radar contributors"
+  },
+  "license": "MIT",
+  "keywords": ["research", "personal-knowledge", "local-first"],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Personal Radar",
+    "shortDescription": "手动启动热点、官方与补充来源三维研究",
+    "longDescription": "读取本地关注方向与已确认内容作为基线，使用公开网页完成一次三维研究；研究结果默认不保存，内容和精品渠道仅在用户明确确认后写入。",
+    "developerName": "Personal Radar contributors",
+    "category": "Productivity",
+    "capabilities": ["Interactive", "Read", "Write"],
+    "defaultPrompt": [
+      "使用 Personal Radar 对一个关注方向执行今天的三维研究。",
+      "读取我的本地关注方向并生成一轮只读研究报告。"
+    ]
+  }
+}

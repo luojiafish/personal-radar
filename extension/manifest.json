@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Personal Radar",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "由用户主动收录当前网页，不读取 Cookie、密码、历史记录或表单。",
   "permissions": [
     "activeTab",

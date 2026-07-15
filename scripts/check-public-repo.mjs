@@ -122,6 +122,11 @@ if (JSON.stringify(manifest.host_permissions) !== JSON.stringify(["http://127.0.
 }
 
 const packageJson = JSON.parse(fs.readFileSync(path.join(projectRoot, "package.json"), "utf8"));
+const pluginManifest = JSON.parse(fs.readFileSync(path.join(projectRoot, "plugins", "personal-radar", ".codex-plugin", "plugin.json"), "utf8"));
+if (packageJson.version !== "1.2.0" || pluginManifest.version !== packageJson.version || manifest.version !== packageJson.version) {
+  failures.push("package、插件与扩展版本必须统一为 1.2.0");
+}
+
 for (const scriptName of ["dev", "start"]) {
   const command = packageJson.scripts?.[scriptName] ?? "";
   if (!command.includes("--hostname 127.0.0.1") || !command.includes("--port 3210")) {
