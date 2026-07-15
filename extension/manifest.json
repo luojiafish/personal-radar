@@ -1,0 +1,17 @@
+{
+  "manifest_version": 3,
+  "name": "Personal Radar",
+  "version": "0.1.0",
+  "description": "由用户主动收录当前网页，不读取 Cookie、密码、历史记录或表单。",
+  "permissions": [
+    "activeTab",
+    "scripting"
+  ],
+  "host_permissions": [
+    "http://127.0.0.1:3210/*"
+  ],
+  "action": {
+    "default_title": "Personal Radar",
+    "default_popup": "popup.html"
+  }
+}

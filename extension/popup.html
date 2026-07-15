@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Personal Radar</title>
+    <link rel="stylesheet" href="popup.css" />
+  </head>
+  <body>
+    <main>
+      <header>
+        <div class="eyebrow">PERSONAL RADAR</div>
+        <h1>当前页面</h1>
+        <p id="site" class="site">正在读取当前标签页…</p>
+      </header>
+
+      <section class="panel capture-panel" aria-labelledby="capture-title">
+        <div class="section-heading">
+          <div>
+            <div class="section-kicker">主动采集</div>
+            <h2 id="capture-title">收录当前页面</h2>
+          </div>
+          <span class="safe-badge">仅本机</span>
+        </div>
+        <label for="target">保存到关注对象</label>
+        <select id="target" disabled>
+          <option value="">正在读取…</option>
+        </select>
+        <button id="capture" class="primary" type="button" disabled>收录到 Personal Radar</button>
+        <p class="hint">仅在点击后读取当前页可见正文和你主动选择的文字；不读取 Cookie、密码、表单、私信或支付信息。</p>
+        <p id="capture-result" class="result" role="status"></p>
+      </section>
+
+      <section class="panel" aria-labelledby="login-title">
+        <div class="section-kicker">保留功能</div>
+        <h2 id="login-title">验证当前主站登录状态</h2>
+        <button id="detect" class="secondary wide" type="button">自动检查当前页面</button>
+        <div class="divider"><span>无法自动判断时</span></div>
+        <div class="actions">
+          <button id="logged-in" type="button">我已登录</button>
+          <button id="logged-out" type="button">未登录</button>
+        </div>
+        <p id="result" class="result" role="status"></p>
+      </section>
+    </main>
+    <script src="page-capture.js"></script>
+    <script src="popup.js"></script>
+  </body>
+</html>

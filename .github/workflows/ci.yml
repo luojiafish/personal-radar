@@ -1,0 +1,55 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    name: Windows / Node.js 24
+    runs-on: windows-latest
+    timeout-minutes: 20
+    env:
+      CI: "true"
+      NEXT_TELEMETRY_DISABLED: "1"
+      AI_BASE_URL: ""
+      AI_API_KEY: ""
+      AI_MODEL: ""
+      APP_TIMEZONE: Asia/Shanghai
+      DATABASE_PATH: ${{ runner.temp }}\personal-radar-ci.sqlite
+
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Use Node.js 24
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install locked dependencies
+        run: npm.cmd ci
+
+      - name: Check public repository boundaries
+        run: npm.cmd run repo:check
+
+      - name: Audit production dependencies
+        run: npm.cmd audit --omit=dev
+
+      - name: Run database migrations
+        run: npm.cmd run db:migrate
+
+      - name: Run tests
+        run: npm.cmd test
+
+      - name: Check TypeScript
+        run: npm.cmd run typecheck
+
+      - name: Build production application
+        run: npm.cmd run build
