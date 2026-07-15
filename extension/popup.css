@@ -26,11 +26,7 @@ button { border: 1px solid rgba(255,255,255,.13); border-radius: 999px; backgrou
 button:hover { border-color: rgba(165,180,252,.42); background: rgba(99,102,241,.2); }
 button:disabled,select:disabled { cursor: wait; opacity: .5; }
 .primary { width: 100%; margin-top: 10px; border: 0; background: linear-gradient(105deg,#6366f1,#8b5cf6); box-shadow: 0 10px 24px rgba(99,102,241,.3); }
-.secondary { background: rgba(99,102,241,.13); border-color: rgba(129,140,248,.25); }
-.wide { width: 100%; margin-top: 13px; }
 .actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-.divider { display: flex; align-items: center; gap: 8px; margin: 12px 0; color: #718096; font-size: 9px; }
-.divider::before,.divider::after { height: 1px; flex: 1; content: ""; background: rgba(255,255,255,.1); }
 .result { min-height: 0; margin: 10px 0 0; color: #a7f3d0; font-size: 11px; line-height: 1.5; }
 .result:empty { display: none; }
 .result.error { color: #fecdd3; }
